@@ -1,2 +1,2 @@
-# BowlingPinsChallenge
-Bowling pins challenge for TER4M3.
+# LEGO NXT Robot
+LEGO NXT robot for TER4M3.
