@@ -35,8 +35,8 @@
 // Define the motor values.
 #define HIGH 30
 #define LOW 2
-#define HIGH_STRAIGHT = ((HIGH + HIGH + LOW) / 3)
-#define LOW_STRAIGHT = ((HIGH + LOW + LOW) / 3)
+#define HIGH_STRAIGHT ((HIGH + HIGH + LOW) / 3)
+#define LOW_STRAIGHT ((HIGH + LOW + LOW) / 3)
 
 // The current direction we are turning.
 bool currentDir;
