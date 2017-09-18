@@ -93,16 +93,16 @@ void setDirection(bool newDir) {
 
 task main() {
 	wait1Msec(50); // The program waits 50 milliseconds to initialize the light sensor.
-	currentDir = LEFT;
-	lastDir = LEFT;
-	goLeft();
+	currentDir = RIGHT;
+	lastDir = currentDir;
+	setDirection(currentDir);
 	while (true) {
 		light = SensorValue[lightSensor];
 		if (onBlack() || onGreen()) {
 			lastDir = currentDir;
-			straighten();
+			setDirection(RIGHT);
 		} else if (onWhite()) {
-			setDirection(!lastDir);
+			setDirection(LEFT);
 		}
 	}
 }
