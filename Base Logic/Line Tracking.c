@@ -35,9 +35,6 @@
 // Define the motor values.
 #define HIGH 30
 #define LOW 2
-#define STRAIGHT ((HIGH + LOW) / 2)
-#define MID_HIGH ((STRAIGHT + HIGH) / 2)
-#define MID_LOW ((STRAIGHT + LOW) / 2)
 
 // The current direction we are turning.
 bool currentDir;
@@ -74,16 +71,6 @@ void goRight() {
 	motor[motorC] = HIGH; // Set left motor to high.
 }
 
-void straighten() {
-	if (currentDir == LEFT) {
-		motor[motorB] = MID_HIGH;
-		motor[motorC] = MID_LOW;
-	} else {
-		motor[motorB] = MID_LOW;
-		motor[motorC] = MID_HIGH;
-	}
-}
-
 // Set the direction to turn.
 void setDirection(bool newDir) {
 	if (newDir == LEFT) {
@@ -96,14 +83,11 @@ void setDirection(bool newDir) {
 task main() {
 	wait1Msec(50); // The program waits 50 milliseconds to initialize the light sensor.
 	currentDir = RIGHT;
-	lastDir = currentDir;
 	setDirection(currentDir);
 	while (true) {
 		light = SensorValue[lightSensor];
 		if (onBlack() || onGreen()) {
-			lastDir = currentDir;
 			setDirection(RIGHT);
-			straighten();
 		} else if (onWhite()) {
 			setDirection(LEFT);
 		}
