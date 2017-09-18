@@ -36,6 +36,8 @@
 #define HIGH 30
 #define LOW 2
 #define STRAIGHT ((HIGH + LOW) / 2)
+#define MID_HIGH ((STRAIGHT + HIGH) / 2)
+#define MID_LOW ((STRAIGHT + LOW) / 2)
 
 // The current direction we are turning.
 bool currentDir;
@@ -62,23 +64,23 @@ bool onWhite() {
 
 void goLeft() {
 	currentDir = LEFT;
-	motor[motorB] = LOW; // Set right motor to low.
-	motor[motorC] = HIGH; // Set left motor to high.
+	motor[motorB] = HIGH; // Set right motor to low.
+	motor[motorC] = LOW; // Set left motor to high.
 }
 
 void goRight() {
 	currentDir = RIGHT;
-	motor[motorB] = HIGH; // Set right motor to high.
-	motor[motorC] = LOW; // Set left motor to low.
+	motor[motorB] = LOW; // Set right motor to low.
+	motor[motorC] = HIGH; // Set left motor to high.
 }
 
 void straighten() {
 	if (currentDir == LEFT) {
-		motor[motorB] = STRAIGHT;
-		motor[motorC] = STRAIGHT;
+		motor[motorB] = MID_HIGH;
+		motor[motorC] = MID_LOW;
 	} else {
-		motor[motorB] = STRAIGHT;
-		motor[motorC] = STRAIGHT;
+		motor[motorB] = MID_LOW;
+		motor[motorC] = MID_HIGH;
 	}
 }
 
@@ -101,6 +103,7 @@ task main() {
 		if (onBlack() || onGreen()) {
 			lastDir = currentDir;
 			setDirection(RIGHT);
+			straighten();
 		} else if (onWhite()) {
 			setDirection(LEFT);
 		}
