@@ -73,11 +73,10 @@ void goRight() {
 
 // Set the direction to turn.
 void setDirection(bool newDir) {
-	currentDir = newDir;
-	if (currentDir == LEFT) {
-		goRight();
-	} else {
+	if (newDir == LEFT) {
 		goLeft();
+	} else {
+		goRight();
 	}
 }
 
