@@ -35,8 +35,7 @@
 // Define the motor values.
 #define HIGH 30
 #define LOW 2
-#define HIGH_STRAIGHT ((HIGH + HIGH + LOW) / 3)
-#define LOW_STRAIGHT ((HIGH + LOW + LOW) / 3)
+#define STRAIGHT (HIGH + LOW) / 2)
 
 // The current direction we are turning.
 bool currentDir;
@@ -75,11 +74,11 @@ void goRight() {
 
 void straighten() {
 	if (currentDir == LEFT) {
-		motor[motorB] = LOW_STRAIGHT; // Set right motor to low.
-		motor[motorC] = HIGH_STRAIGHT; // Set left motor to high.
+		motor[motorB] = STRAIGHT;
+		motor[motorC] = STRAIGHT;
 	} else {
-		motor[motorB] = HIGH_STRAIGHT; // Set right motor to high.
-		motor[motorC] = LOW_STRAIGHT; // Set left motor to low.
+		motor[motorB] = STRAIGHT;
+		motor[motorC] = STRAIGHT;
 	}
 }
 
