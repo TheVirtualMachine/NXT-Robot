@@ -27,10 +27,10 @@
 #define RIGHT (!LEFT)
 
 // Define the colour ranges.
-#define BLACK_END 37
+#define BLACK_END 45
+#define WHITE_START 47
 #define GREEN_START BLACK_END
-#define GREEN_END 50
-#define WHITE_START GREEN_END
+#define GREEN_END WHITE_START
 
 // Define the motor values.
 #define HIGH 30
@@ -38,8 +38,6 @@
 
 // The current direction we are turning.
 bool currentDir;
-// The direction we were going when last on black.
-bool lastDir;
 
 // The value of the light sensor on this tick.
 int light;
@@ -61,14 +59,14 @@ bool onWhite() {
 
 void goLeft() {
 	currentDir = LEFT;
-	motor[motorB] = HIGH; // Set right motor to low.
-	motor[motorC] = LOW; // Set left motor to high.
+	motor[motorB] = LOW; // Set right motor to low.
+	motor[motorC] = HIGH; // Set left motor to high.
 }
 
 void goRight() {
 	currentDir = RIGHT;
-	motor[motorB] = LOW; // Set right motor to low.
-	motor[motorC] = HIGH; // Set left motor to high.
+	motor[motorB] = HIGH; // Set right motor to low.
+	motor[motorC] = LOW; // Set left motor to high.
 }
 
 // Set the direction to turn.
@@ -84,6 +82,11 @@ task main() {
 	wait1Msec(50); // The program waits 50 milliseconds to initialize the light sensor.
 	currentDir = RIGHT;
 	setDirection(currentDir);
+
+		//	motor[motorA] = 100;
+		//	wait10Msec(9);
+		//	motor[motorA] = 0;
+
 	while (true) {
 		light = SensorValue[lightSensor];
 		if (onBlack() || onGreen()) {
