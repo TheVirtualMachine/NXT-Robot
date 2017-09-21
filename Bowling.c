@@ -16,7 +16,7 @@
 // Define the colour ranges.
 #define BLACK_END 40
 #define GREEN_START BLACK_END
-#define GREEN_END 50
+#define GREEN_END 60
 #define WHITE_START GREEN_END
 
 // Define the motor values.
