@@ -29,6 +29,12 @@ int light;
 // The number of green stops that have been passed.
 int stopsPassed = 0;
 
+// If we are currently on green.
+bool onGreenNow = false;
+
+// If we have already shot.
+bool hasShot = false;
+
 // Return whether or not we are currently on black.
 bool onBlack() {
 	return (light < BLACK_END);
@@ -71,22 +77,43 @@ void stop() {
 
 // Shoot the projectile.
 void shoot() {
+	stop();
 	motor[motorA] = 100;
+	wait10Msec(9);
+	motor[motorA] = 0;
+	wait1Msec(1000);
 }
 
-task main() {
-	wait1Msec(50); // The program waits 50 milliseconds to initialize the light sensor.
+void runBot() {
 	setDirection(RIGHT);
 	while (true) {
 		light = SensorValue[lightSensor];
 		if (onBlack()) {
+			onGreenNow = false;
 			setDirection(RIGHT);
 		} else if (onWhite()) {
+			onGreenNow = false;
 			setDirection(LEFT);
-		} else {
-			stop();
-			break;
+		} else if (onGreen()) {
+			onGreenNow = true;
+			if (!onGreenNow) {
+				stopsPassed += 1;
+			}
+			if (stopsPassed == 1) {
+				setDirection(RIGHT)
+			} else if (stopsPassed == 2 && !hasShot) {
+				shoot();
+				hasShot = true;
+			}
 		}
 	}
-	shoot();
+	stop();
+}
+
+task main() {
+	while (true) {
+		if (nNxtButtonPressed == 1 || nNxtButtonPressed == 2) {
+			runBot();
+		}
+	}
 }
