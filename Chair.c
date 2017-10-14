@@ -84,12 +84,6 @@ void goStraight() {
 	motor[motorC] = HIGH / 2;
 }
 
-// Go straight.
-void fastStraight() {
-	motor[motorB] = HIGH;
-	motor[motorC] = HIGH;
-}
-
 // Double check if we are on green.
 bool checkGreen() {
 	motor[motorB] = 0;
@@ -120,7 +114,7 @@ bool checkGreen() {
 	motor[motorB] = ROTATE;
 	motor[motorC] = -ROTATE;
 	//original: 1000;
-	wait1Msec(500);
+	wait1Msec(400);
 	motor[motorB] = 0;
 	motor[motorC] = 0;
 
@@ -133,7 +127,7 @@ bool checkGreen() {
 bool handleGreen() {
 	if ((onGreen() || onMid()) && greenTicks < GREEN_TICKS_TRIGGER) {
 		greenTicks++;
-		if (greenTicks >= GREEN_TICKS_TRIGGER && onGreen()) {
+		if (stopsPassed < 6 && greenTicks >= GREEN_TICKS_TRIGGER && onGreen()) {
 			if (checkGreen()) {
 				stopsPassed++;
 				return (true);
@@ -147,7 +141,7 @@ void catchChair()
 {
 	motor[motorB] = ROTATE;
 	motor[motorC] = -ROTATE;
-	wait1Msec(1300);
+	wait1Msec(1200);
 	goStraight();
 	wait1Msec(2000);
 	sharpLeft();
@@ -161,14 +155,16 @@ void pushChair()
 {
 	motor[motorB] = ROTATE;
 	motor[motorC] = -ROTATE;
-	wait1Msec(1300);
+	wait1Msec(1200);
 	goStraight();
 	wait1Msec(2700);
 	motor[motorB] = -(HIGH/2);
 	motor[motorC] = -(HIGH/2);
-	wait1Msec(4000);
+	wait1Msec(3500);
 	sharpLeft();
-	wait1Msec(800);
+	wait1Msec(1300);
+	goStraight();
+	wait1Msec(8500);
 	chairPushed = true;
 }
 
@@ -182,17 +178,14 @@ task main() {
 		light = SensorValue[lightSensor];
 		if (stopsPassed == 2 && !chairCaught)
 		{
-			catchChair();
+			catchChair( );
 		}
-		else if (stopsPassed == 5 && !chairPushed)
+		else if (stopsPassed == 6 && !chairPushed)
 		{
 			pushChair();
 		}
 		if (handleGreen() || onGreen()) {
 			goStraight();
-		}
-		else if (onMid()){
-			fastStraight();
 		} else if (onBlack()) {
 			goRight();
 		} else {
