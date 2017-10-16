@@ -3,6 +3,7 @@
 /*--------------------------------------------------------------------------------------------------------*\
 |*    MOTORS & SENSORS:                                                                                   *|
 |*    [I/O Port]              [Name]              [Type]              [Description]                       *|
+|*    Port A                  motorA              NXT                 Spinner                             *|
 |*    Port B                  motorB              NXT                 Right motor                         *|
 |*    Port C                  motorC              NXT                 Left motor                          *|
 |*    Port 1                  lightSensor         Light Sensor        Back mounted                        *|
@@ -113,12 +114,9 @@ bool checkGreen() {
 
 	motor[motorB] = ROTATE;
 	motor[motorC] = -ROTATE;
-	//original: 1000;
 	wait1Msec(400);
 	motor[motorB] = 0;
 	motor[motorC] = 0;
-
-	//wait1Msec(1000);
 
 	return (checkOne || checkTwo);
 }
@@ -176,12 +174,10 @@ task main() {
 	wait1Msec(1000);
 	while (true) {
 		light = SensorValue[lightSensor];
-		if (stopsPassed == 2 && !chairCaught)
-		{
+		if (stopsPassed == 2 && !chairCaught) {
 			catchChair( );
 		}
-		else if (stopsPassed == 6 && !chairPushed)
-		{
+		else if (stopsPassed == 6 && !chairPushed) {
 			pushChair();
 		}
 		if (handleGreen() || onGreen()) {
@@ -194,6 +190,5 @@ task main() {
 		if (!(onGreen() || onMid())) {
 			greenTicks = 0;
 		}
-
 	}
 }

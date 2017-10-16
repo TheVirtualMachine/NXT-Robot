@@ -3,6 +3,7 @@
 /*--------------------------------------------------------------------------------------------------------*\
 |*    MOTORS & SENSORS:                                                                                   *|
 |*    [I/O Port]              [Name]              [Type]              [Description]                       *|
+|*    Port A                  motorA              NXT                 Button presser                      *|
 |*    Port B                  motorB              NXT                 Right motor                         *|
 |*    Port C                  motorC              NXT                 Left motor                          *|
 |*    Port 1                  lightSensor         Light Sensor        Back mounted                        *|
@@ -75,7 +76,6 @@ void goStraight() {
 bool checkGreen() {
 	motor[motorB] = 0;
 	motor[motorC] = 0;
-	//wait1Msec(1000);
 
 	bool checkOne = false;
 	bool checkTwo = false;
@@ -98,12 +98,9 @@ bool checkGreen() {
 
 	motor[motorB] = ROTATE;
 	motor[motorC] = -ROTATE;
-	//wait1Msec(1000);
 	wait1Msec(1000);
 	motor[motorB] = 0;
 	motor[motorC] = 0;
-
-	//wait1Msec(1000);
 
 	return (checkOne || checkTwo);
 }
@@ -122,8 +119,8 @@ bool handleGreen() {
 	return (false);
 }
 
-void pressButtons()
-{
+// Press the buttons.
+void pressButtons() {
 	goRight();
 	wait1Msec(200);
 	goStraight();
@@ -153,8 +150,7 @@ task main() {
 	wait1Msec(1000);
 	while (true) {
 		light = SensorValue[lightSensor];
-		if (stopsPassed == 3 && !buttonsPressed)
-		{
+		if (stopsPassed == 3 && !buttonsPressed) {
 			pressButtons();
 		}
 		if (handleGreen() || onGreen()) {

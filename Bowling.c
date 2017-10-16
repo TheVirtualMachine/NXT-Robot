@@ -81,10 +81,10 @@ void runBot() {
 		if (onGreen()) {
 			motor[motorB] = HIGH;
 			motor[motorC] = HIGH;
-			} else if (onBlack()) {
+		} else if (onBlack()) {
 			onGreenNow = false;
 			setDirection(RIGHT);
-			} else {
+		} else {
 			onGreenNow = false;
 			setDirection(LEFT);
 		}
@@ -92,7 +92,7 @@ void runBot() {
 	stop();
 }
 
-//Driver method which ties together all functions
+// Driver method which ties together all functions.
 task main() {
 	while (true) {
 		light = SensorValue[lightSensor];
